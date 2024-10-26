@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Tugas Harian</title>
+    <style>
+        body {
+            font-family:'Times New Roman', Times, serif;
+            background-color: #7cbcc7;
+            margin: 0;
+            padding: 20px;
+            border-radius: 50 px;
+        }
+        h1 {
+            color: #191b1b;
+        }
+        form {
+            background-color: rgb(87, 236, 229);
+            padding: 500px;
+            border-radius: 500 px;
+            box-shadow: 10 20px 40px rgba(128, 169, 231, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            width: 20%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #68a4d4;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #3a6792;
+            color: rgb(243, 247, 246);
+            border: none;
+            border-radius: 0px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #418c96;
+        }
+        #clock {
+            font-size: 100px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Daftar Tugas Harian</h1>
+    <input type="text" id="task-input" placeholder="Tambahkan tugas baru" />
+    <button id="add-task-btn">Tambah Tugas</button>
+
+    <ul id="task-list"></ul>
+
+    <script>
+        document.getElementById('add-task-btn').addEventListener('click', addTask);
+
+        function addTask() {
+            const taskInput = document.getElementById('task-input');
+            const taskText = taskInput.value.trim();
+
+            if (taskText === '') {
+                alert('Tugas tidak boleh kosong!');
+                return;
+            }
+
+            const taskList = document.getElementById('task-list');
+            const listItem = document.createElement('li');
+            listItem.className = 'task';
+
+            const taskItem = document.createElement('input');
+            taskItem.type = 'text';
+            taskItem.value = taskText;
+            taskItem.setAttribute('readonly', 'readonly');
+
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.addEventListener('click', function() {
+                if (taskItem.hasAttribute('readonly')) {
+                    taskItem.removeAttribute('readonly');
+                    taskItem.focus();
+                    editButton.textContent = 'Simpan';
+                } else {
+                    taskItem.setAttribute('readonly', 'readonly');
+                    editButton.textContent = 'Edit';
+                }
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Hapus';
+            deleteButton.addEventListener('click', function() {
+                taskList.removeChild(listItem);
+            });
+
+            listItem.appendChild(taskItem);
+            listItem.appendChild(editButton);
+            listItem.appendChild(deleteButton);
+            taskList.appendChild(listItem);
+            taskInput.value = ''; // Reset input
+        }
+    </script>
+</body>
+</html>
